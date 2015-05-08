@@ -15,6 +15,7 @@ library
                        base                            >= 3          && < 5
                      , either                          == 4.3.*
                      , p
+                     , time                            == 1.4.*
 
   ghc-options:
                        -Wall
@@ -25,6 +26,10 @@ library
 
   exposed-modules:
                        Twine
+                       Twine.Data
+                       Twine.Data.Duration
+                       Twine.Data.Pin
+                       Twine.Snooze
 
 test-suite test
   type:                exitcode-stdio-1.0
@@ -41,5 +46,25 @@ test-suite test
                      , twine
                      , disorder-core
                      , p
+                     , time
+                     , QuickCheck                      == 2.7.*
+                     , quickcheck-instances            == 0.3.*
+
+test-suite test-io
+  type:                exitcode-stdio-1.0
+
+  main-is:             test-io.hs
+
+  ghc-options:         -Wall -threaded -O2
+
+  hs-source-dirs:
+                       test
+
+  build-depends:
+                       base                            >= 3          && < 5
+                     , twine
+                     , disorder-core
+                     , p
+                     , time
                      , QuickCheck                      == 2.7.*
                      , quickcheck-instances            == 0.3.*
