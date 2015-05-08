@@ -1,0 +1,45 @@
+name:                  twine
+version:               0.0.1
+license:               AllRightsReserved
+author:                Ambiata <info@ambiata.com>
+maintainer:            Ambiata <info@ambiata.com>
+copyright:             (c) 2015 Ambiata.
+synopsis:              twine
+category:              System
+cabal-version:         >= 1.8
+build-type:            Simple
+description:           twine.
+
+library
+  build-depends:
+                       base                            >= 3          && < 5
+                     , either                          == 4.3.*
+                     , p
+
+  ghc-options:
+                       -Wall
+
+  hs-source-dirs:
+                       src
+
+
+  exposed-modules:
+                       Twine
+
+test-suite test
+  type:                exitcode-stdio-1.0
+
+  main-is:             test.hs
+
+  ghc-options:         -Wall -threaded -O2
+
+  hs-source-dirs:
+                       test
+
+  build-depends:
+                       base                            >= 3          && < 5
+                     , twine
+                     , disorder-core
+                     , p
+                     , QuickCheck                      == 2.7.*
+                     , quickcheck-instances            == 0.3.*
