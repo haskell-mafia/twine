@@ -14,4 +14,4 @@ Twine
 Concurrency tools for when you _really_ have to make your own bed.
 
 Another way to look at this, is [twine](https://github.com/ambiata/twine) is
-to threads, as [tine](https://github.com/ambiata/tine is to processes.
+to threads, as [tine](https://github.com/ambiata/tine) is to processes.
