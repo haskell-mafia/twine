@@ -5,8 +5,10 @@ module Twine.Data.Duration (
   , milliseconds
   , seconds
   , minutes
+  , hours
   , toMicroseconds
   , toMilliseconds
+  , toHours
   , toMinutes
   , toSeconds
   ) where
@@ -41,6 +43,9 @@ minutes :: Int -> Duration
 minutes =
   seconds . (*) 60
 
+hours :: Int -> Duration
+hours = minutes . (*) 60
+
 toMicroseconds :: Duration -> Int
 toMicroseconds =
   duration
@@ -56,3 +61,7 @@ toSeconds =
 toMinutes :: Duration -> Int
 toMinutes =
   flip div 60 . toSeconds
+
+toHours :: Duration -> Int
+toHours =
+  flip div 60 . toMinutes
