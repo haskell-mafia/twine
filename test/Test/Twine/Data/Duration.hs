@@ -27,6 +27,9 @@ prop_seconds n =
 prop_minutes n =
   toMinutes (minutes n) === n
 
+prop_hours n =
+  toHours (hours n) === n
+
 --
 -- Scaling
 --
@@ -43,14 +46,19 @@ prop_seconds_scale n =
 prop_minutes_scale n =
   toMicroseconds (minutes n) === (n * 60 * 1000 * 1000)
 
+prop_hours_scale n =
+  toMicroseconds (hours n) === (n * 60 * 60 * 1000 * 1000)
+
 --
 -- Sanity checks
 --
 
 prop_sanity = conjoin [
-    minutes 1 === seconds 60
+    hours 1 === minutes 60
+  , minutes 1 === seconds 60
   , seconds 1 === milliseconds 1000
   , milliseconds 1 === microseconds 1000
+
   ]
 
 return []
