@@ -1,10 +1,12 @@
 import           Disorder.Core.Main
 
-import           Test.IO.Twine.Snooze
+import qualified Test.IO.Twine.Guard
+import qualified Test.IO.Twine.Snooze
 
 
 main :: IO ()
 main =
   disorderMain [
-      Test.IO.Twine.Snooze.tests
+      Test.IO.Twine.Guard.tests
+    , Test.IO.Twine.Snooze.tests
     ]
