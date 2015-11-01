@@ -15,8 +15,10 @@ library
   build-depends:
                        base                            >= 3          && < 5
                      , either                          == 4.3.*
+                     , exceptions                      >= 0.6        && < 0.9
                      , ambiata-p
                      , time                            == 1.4.*
+                     , transformers                    >= 0.3        && < 0.5
 
   ghc-options:
                        -Wall
@@ -31,6 +33,7 @@ library
                        Twine.Data.Duration
                        Twine.Data.Pin
                        Twine.Snooze
+                       Twine.Guard
 
 test-suite test
   type:                exitcode-stdio-1.0
@@ -66,6 +69,9 @@ test-suite test-io
                      , ambiata-twine
                      , ambiata-disorder-core
                      , ambiata-p
+                     , either
+                     , exceptions
+                     , text
                      , time
                      , QuickCheck                      == 2.7.*
                      , quickcheck-instances            == 0.3.*
