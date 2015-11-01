@@ -63,7 +63,7 @@ guarded handler action =
       safe = run `catchAll` onExplosion handler `catchAll` (const . pure) Restart
    in safe >>= \a -> when (a == Restart) $ guarded handler action
 
--- | Run an action repeatedly after a fixed time lapse, using
+-- | Run an action repeatedly with a fixed delay between runs, using
 --   termination handler to notify of failure events.
 --
 --   See 'guard' for more description. This offers the same
