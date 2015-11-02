@@ -1,7 +1,7 @@
 module Twine.Data (
-    module Twine.Data.Duration
-  , module Twine.Data.Pin
+    module X
   ) where
 
-import           Twine.Data.Duration
-import           Twine.Data.Pin
+import           Twine.Data.Duration as X
+import           Twine.Data.Finalizer as X
+import           Twine.Data.Pin as X
