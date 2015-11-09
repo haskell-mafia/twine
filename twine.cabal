@@ -14,9 +14,14 @@ description:           twine.
 library
   build-depends:
                        base                            >= 3          && < 5
-                     , either                          == 4.3.*
-                     , exceptions                      >= 0.6        && < 0.9
                      , ambiata-p
+                     , ambiata-x-either
+                     , async                           == 2.0.*
+                     , exceptions                      >= 0.6        && < 0.9
+                     , monad-loops                     == 0.4.*
+                     , SafeSemaphore                   == 0.10.*
+                     , stm                             == 2.4.*
+                     , text                            == 1.2.*
                      , time                            == 1.4.*
                      , transformers                    >= 0.3        && < 0.5
 
@@ -32,7 +37,10 @@ library
                        Twine.Data
                        Twine.Data.Duration
                        Twine.Data.Finalizer
+                       Twine.Data.Parallel
                        Twine.Data.Pin
+                       Twine.Data.Queue
+                       Twine.Parallel
                        Twine.Snooze
                        Twine.Guard
 
@@ -51,7 +59,11 @@ test-suite test
                      , ambiata-twine
                      , ambiata-disorder-core
                      , ambiata-p
+                     , ambiata-x-either
+                     , exceptions                      >= 0.6        && < 0.9
+                     , text                            == 1.2.*
                      , time
+                     , transformers                    >= 0.3        && < 0.5
                      , QuickCheck                      == 2.7.*
                      , quickcheck-instances            == 0.3.*
 
@@ -70,7 +82,7 @@ test-suite test-io
                      , ambiata-twine
                      , ambiata-disorder-core
                      , ambiata-p
-                     , either
+                     , ambiata-x-either
                      , exceptions
                      , text
                      , time
