@@ -59,7 +59,11 @@ test-suite test
                      , ambiata-twine
                      , ambiata-disorder-core
                      , ambiata-p
+                     , ambiata-x-either
+                     , exceptions                      >= 0.6        && < 0.9
+                     , text                            == 1.2.*
                      , time
+                     , transformers                    >= 0.3        && < 0.5
                      , QuickCheck                      == 2.7.*
                      , quickcheck-instances            == 0.3.*
 
