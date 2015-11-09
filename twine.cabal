@@ -16,8 +16,12 @@ library
                        base                            >= 3          && < 5
                      , ambiata-p
                      , ambiata-x-either
+                     , async                           == 2.0.*
                      , exceptions                      >= 0.6        && < 0.9
-                     , ambiata-p
+                     , monad-loops                     == 0.4.*
+                     , SafeSemaphore                   == 0.10.*
+                     , stm                             == 2.4.*
+                     , text                            == 1.2.*
                      , time                            == 1.4.*
                      , transformers                    >= 0.3        && < 0.5
 
@@ -33,7 +37,10 @@ library
                        Twine.Data
                        Twine.Data.Duration
                        Twine.Data.Finalizer
+                       Twine.Data.Parallel
                        Twine.Data.Pin
+                       Twine.Data.Queue
+                       Twine.Parallel
                        Twine.Snooze
                        Twine.Guard
 
