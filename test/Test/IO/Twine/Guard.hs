@@ -6,7 +6,6 @@ module Test.IO.Twine.Guard where
 
 import           Control.Concurrent
 import           Control.Monad.Catch
-import           Control.Monad.Trans.Either
 
 import           Data.Text (Text)
 
@@ -21,6 +20,8 @@ import           Test.QuickCheck
 import           Test.QuickCheck.Instances ()
 
 import           Twine.Guard
+
+import           X.Control.Monad.Trans.Either
 
 data HResult =
   HExplosion | HError Text | HGraceful deriving (Eq, Show)

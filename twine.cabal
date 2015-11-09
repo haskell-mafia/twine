@@ -14,7 +14,8 @@ description:           twine.
 library
   build-depends:
                        base                            >= 3          && < 5
-                     , either                          == 4.3.*
+                     , ambiata-p
+                     , ambiata-x-either
                      , exceptions                      >= 0.6        && < 0.9
                      , ambiata-p
                      , time                            == 1.4.*
@@ -70,7 +71,7 @@ test-suite test-io
                      , ambiata-twine
                      , ambiata-disorder-core
                      , ambiata-p
-                     , either
+                     , ambiata-x-either
                      , exceptions
                      , text
                      , time
