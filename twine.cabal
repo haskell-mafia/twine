@@ -15,7 +15,7 @@ library
   build-depends:
                        base                            >= 3          && < 5
                      , ambiata-p
-                     , ambiata-x-either
+                     , ambiata-x-eithert
                      , async                           == 2.0.*
                      , exceptions                      >= 0.6        && < 0.9
                      , monad-loops                     == 0.4.*
@@ -59,7 +59,7 @@ test-suite test
                      , ambiata-twine
                      , ambiata-disorder-core
                      , ambiata-p
-                     , ambiata-x-either
+                     , ambiata-x-eithert
                      , exceptions                      >= 0.6        && < 0.9
                      , text                            == 1.2.*
                      , time
@@ -82,7 +82,7 @@ test-suite test-io
                      , ambiata-twine
                      , ambiata-disorder-core
                      , ambiata-p
-                     , ambiata-x-either
+                     , ambiata-x-eithert
                      , exceptions
                      , text
                      , time
