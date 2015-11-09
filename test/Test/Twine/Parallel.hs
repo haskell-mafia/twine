@@ -51,9 +51,21 @@ prop_worker_fail = forAll (choose (1, 1000 :: Int)) $ \n -> testIO $ do
       False
   pure $ z === True
 
-prop_worker_blow_up = forAll (choose (1, 1000 :: Int)) $ \n -> testIO $ do
+prop_worker_blow_up_worker = forAll (choose (1, 1000 :: Int)) $ \n -> testIO $ do
   let pro = \q -> forM_ [1..n] (writeQueue q)
       work = const . throwM . userError $ "what is this?"
+
+  r <- runEitherT $ consume pro 1 work
+  z <- pure $ case r of
+    (Left (BlowUpError _)) ->
+      True
+    _ ->
+      False
+  pure $ z === True
+
+prop_worker_blow_up_producer = testIO $ do
+  let pro = const . throwM . userError $ "producer"
+      work = const $ pure ()
 
   r <- runEitherT $ consume pro 1 work
   z <- pure $ case r of
