@@ -25,6 +25,11 @@ prop_empty = testIO $ do
   e <- isQueueEmpty q
   pure $ e === True
 
+prop_try_read_non_blocking = testIO $ do
+  q <- newQueue 1
+  m <- tryReadQueue q
+  pure $ m === (Nothing :: Maybe Int)
+
 
 return []
 tests :: IO Bool

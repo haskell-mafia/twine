@@ -3,11 +3,12 @@ module Twine.Data.Queue (
     Queue
   , newQueue
   , readQueue
+  , tryReadQueue
   , writeQueue
   , isQueueEmpty
   ) where
 
-import           Control.Concurrent.STM.TBQueue (TBQueue, newTBQueue, readTBQueue, writeTBQueue, isEmptyTBQueue)
+import           Control.Concurrent.STM.TBQueue (TBQueue, newTBQueue, tryReadTBQueue, readTBQueue, writeTBQueue, isEmptyTBQueue)
 
 import           GHC.Conc (atomically)
 
@@ -27,6 +28,10 @@ newQueue i =
 readQueue :: Queue a -> IO a
 readQueue =
   atomically . readTBQueue . queue
+
+tryReadQueue :: Queue a -> IO (Maybe a)
+tryReadQueue =
+  atomically . tryReadTBQueue . queue
 
 writeQueue :: Queue a -> a -> IO ()
 writeQueue q =

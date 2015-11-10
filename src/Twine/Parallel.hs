@@ -51,11 +51,12 @@ consume pro fork action = EitherT . liftIO $ do
   sem <- new fork
 
   let spawn = do
-       a <- readQueue q
-       w <- do
-         M.wait sem
-         async $ (runEitherT (action a) >>= void . addResult result . first WorkerError) `finally` signal sem
-       addWorker workers w
+       m <- tryReadQueue q
+       flip (maybe $ return ()) m $ \a -> do
+         w <- do
+           M.wait sem
+           async $ (runEitherT (action a) >>= void . addResult result . first WorkerError) `finally` signal sem
+         addWorker workers w
 
   let check = do
        p <- poll producer
