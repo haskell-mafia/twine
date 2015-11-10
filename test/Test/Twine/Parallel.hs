@@ -75,6 +75,13 @@ prop_worker_blow_up_producer = testIO $ do
       False
   pure $ z === True
 
+prop_empty_producer = testIO $ do
+  let pro = const $ pure ()
+      work = const $ pure ()
+
+  r <- runEitherT $ consume pro 1 work
+  pure $ (isRight r) === True
+
 
 return []
 tests :: IO Bool
