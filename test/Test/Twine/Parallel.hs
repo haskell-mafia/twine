@@ -24,7 +24,7 @@ import           X.Control.Monad.Trans.Either
 data Fail =
   IFailed
 
-prop_consume = forAll (choose (1, 1000 :: Int)) $ \n -> testIO $ do
+prop_consume = forAll (choose (1, 10 :: Int)) $ \n -> testIO $ do
   r <- newMVar ([] :: [Int])
 
   let pro = \q -> forM_ [1..n] (writeQueue q)
