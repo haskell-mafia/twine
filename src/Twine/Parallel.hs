@@ -59,6 +59,7 @@ consume pro fork action = EitherT . liftIO $ do
          addWorker workers w
 
   let check = do
+       threadDelay 1000 {-- 1 ms --}
        p <- poll producer
        e <- isQueueEmpty q
        pure $ (isJust p) && e
