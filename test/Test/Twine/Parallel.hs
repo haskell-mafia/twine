@@ -33,7 +33,7 @@ prop_consume = forAll (choose (1, 10 :: Int)) $ \n -> testIO $ do
       work i =
         liftIO $ modifyMVar_ r (\l -> pure $ i : l)
 
-  _ <- runEitherT $ consume pro 1 work
+  _ <- runEitherT $ consume_ pro 1 work
 
   g <- readMVar r
 
@@ -43,7 +43,7 @@ prop_worker_fail = forAll (choose (1, 1000 :: Int)) $ \n -> testIO $ do
   let pro = \q -> forM_ [1..n] (writeQueue q)
       work = const $ left IFailed
 
-  r <- runEitherT $ consume pro 1 work
+  r <- runEitherT $ consume_ pro 1 work
   z <- pure $ case r of
     (Left (WorkerError IFailed)) ->
       True
@@ -55,7 +55,7 @@ prop_worker_blow_up_worker = forAll (choose (1, 1000 :: Int)) $ \n -> testIO $ d
   let pro = \q -> forM_ [1..n] (writeQueue q)
       work = const . throwM . userError $ "what is this?"
 
-  r <- runEitherT $ consume pro 1 work
+  r <- runEitherT $ consume_ pro 1 work
   z <- pure $ case r of
     (Left (BlowUpError _)) ->
       True
@@ -67,7 +67,7 @@ prop_worker_blow_up_producer = testIO $ do
   let pro = const . throwM . userError $ "producer"
       work = const $ pure ()
 
-  r <- runEitherT $ consume pro 1 work
+  r <- runEitherT $ consume_ pro 1 work
   z <- pure $ case r of
     (Left (BlowUpError _)) ->
       True
@@ -79,7 +79,7 @@ prop_empty_producer = testIO $ do
   let pro = const $ pure ()
       work = const $ pure ()
 
-  r <- runEitherT $ consume pro 1 work
+  r <- runEitherT $ consume_ pro 1 work
   pure $ (isRight r) === True
 
 
