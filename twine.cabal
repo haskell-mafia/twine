@@ -88,3 +88,21 @@ test-suite test-io
                      , time
                      , QuickCheck                      == 2.7.*
                      , quickcheck-instances            == 0.3.*
+
+benchmark bench
+  type:                exitcode-stdio-1.0
+  main-is:             bench.hs
+  ghc-options:         -Wall -threaded -O2
+  hs-source-dirs:      test
+  build-depends:       base
+                     , ambiata-twine
+                     , ambiata-p
+                     , ambiata-x-eithert
+                     , criterion                       == 1.1.*
+                     , QuickCheck
+                     , quickcheck-instances            == 0.3.*
+                     , quickcheck-properties           == 0.1.*
+                     , quickcheck-text                 == 0.1.*
+                     , random
+                     , text
+                     , transformers
