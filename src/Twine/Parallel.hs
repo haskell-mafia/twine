@@ -1,13 +1,22 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ExplicitForAll #-}
+{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 module Twine.Parallel (
     RunError (..)
   , renderRunError
+  , consume_
   , consume
+  , waitEitherBoth
   ) where
 
+
+import           Control.Concurrent.MVar (newEmptyMVar, takeMVar, putMVar)
+import           Control.Concurrent.STM (atomically, orElse, retry)
 import           Control.Concurrent (threadDelay)
-import           Control.Concurrent.Async (async, cancel, poll, waitBoth)
+import           Control.Concurrent.Async (Async, waitSTM, waitEither)
+import           Control.Concurrent.Async (async, cancel, poll, waitBoth, wait)
 import           Control.Concurrent.MSem (new, signal)
 import qualified Control.Concurrent.MSem as M
 import           Control.Monad.Catch
@@ -16,8 +25,11 @@ import           Control.Monad.Loops (untilM_)
 
 import           Data.Text (Text)
 import qualified Data.Text as T
+import           Data.Typeable
 
 import           P
+
+import           Prelude (($!))
 
 import           Twine.Data.Parallel
 import           Twine.Data.Queue
@@ -40,8 +52,8 @@ import           X.Control.Monad.Trans.Either
 --     consume producer 100 (\(a :: Address) -> doThis)
 --   @
 --
-consume :: MonadIO m => (Queue b -> IO a) -> Int -> (b -> EitherT e IO ()) -> EitherT (RunError e) m a
-consume pro fork action = EitherT . liftIO $ do
+consume_ :: MonadIO m => (Queue b -> IO a) -> Int -> (b -> EitherT e IO ()) -> EitherT (RunError e) m a
+consume_ pro fork action = EitherT . liftIO $ do
   q <- newQueue fork
 
   producer <- async $ pro q
@@ -83,7 +95,6 @@ consume pro fork action = EitherT . liftIO $ do
         getResult result >>= \w ->
           pure (w >> Left (BlowUpError z)))
 
-
 data RunError a =
     WorkerError a
   | BlowUpError SomeException
@@ -96,3 +107,63 @@ renderRunError r render =
       "Worker failed: " <> render a
     BlowUpError e ->
       "An unknown exception was caught: " <> T.pack (show e)
+
+data EarlyTermination =
+  EarlyTermination deriving (Eq, Show, Typeable)
+
+instance Exception EarlyTermination
+
+consume :: forall a b c e . (Queue a -> IO b) -> Int -> (a -> IO (Either e c)) -> IO (Either (RunError e) (b, [c]))
+consume pro fork action = flip catchAll (pure . Left . BlowUpError) $ do
+  q <- newQueue fork -- not fork
+  producer <- async $ pro q
+  workers <- (emptyWorkers :: IO (Workers c))
+  sem <- new fork
+  early <- newEmptyMVar
+
+  terminator <- async $ takeMVar early
+
+  let spawn :: IO ()
+      spawn = do
+       m <- tryReadQueue q
+       flip (maybe $ return ()) m $ \a -> do
+         w <- do
+           M.wait sem
+           async $ flip finally (signal sem) $ do
+             r <- action a
+             case r of
+               Left e ->
+                 putMVar early e >>
+                   throwM EarlyTermination
+               Right c ->
+                 pure $! c
+         addWorker workers w
+
+  let check = do
+       threadDelay 1000 {-- 1 ms --}
+       p <- poll producer
+       e <- isQueueEmpty q
+       pure $ (isJust p) && e
+
+  submitter <- async $ untilM_ spawn check
+
+  let waiter = runEitherT $ do
+        (i, _) <- bimapEitherT WorkerError id . EitherT $ waitEitherBoth terminator producer submitter
+
+        ws <- liftIO $ getWorkers workers
+        ii <- mapM (bimapEitherT WorkerError id . EitherT . waitEither terminator) ws
+        pure $ (i, ii)
+
+  waiter `catch` (\(_ :: EarlyTermination) -> (Left . WorkerError) <$> wait terminator)
+
+
+waitEitherBoth :: Async a -> Async b -> Async c -> IO (Either a (b, c))
+waitEitherBoth a b c =
+  atomically $ do
+    let
+      l = waitSTM a
+      r = do
+        bb <- waitSTM b `orElse` (waitSTM c >> retry)
+        cc <- waitSTM c
+        return (bb, cc)
+    fmap Left l `orElse` fmap Right r

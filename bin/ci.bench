@@ -10,3 +10,6 @@ git submodule update
 ./mafia update
 ./mafia build
 ./mafia bench
+
+VERSION=$(date '+%Y%m%d%H%M%S')-$(git log --pretty=format:%h -n 1)
+s3 upload dist/bench.html s3://ambiata-check-results/bench-$VERSION.html
