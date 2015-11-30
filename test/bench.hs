@@ -5,6 +5,7 @@ import           Control.Concurrent
 import           Control.Monad.IO.Class (liftIO)
 
 import           Criterion.Main
+import           Criterion.Types (Config (..))
 
 import           Twine.Data
 import           Twine.Parallel
@@ -16,6 +17,7 @@ import           System.IO
 import           Test.QuickCheck.Instances ()
 
 import           X.Control.Monad.Trans.Either
+
 
 run_ :: EitherT (RunError ()) IO a -> IO a
 run_ =
@@ -38,8 +40,13 @@ main = do
         threadDelay 10000 {-- 10 ms --}
         pure $ Right ()
 
+  let cfg =
+        defaultConfig {
+            reportFile = Just "dist/bench.html"
+          }
 
-  defaultMain [
+
+  defaultMainWith cfg [
       bgroup "sem-100" [
           bench "work-1000" (nfIO . run_ $ consume_ (pro 1000) 100 work_)
         , bench "work-1000" (nfIO . run $ consume (pro 1000) 100 work)
