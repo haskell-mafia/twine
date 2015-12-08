@@ -42,7 +42,7 @@ main = do
 
   let cfg =
         defaultConfig {
-            reportFile = Just "dist/bench.html"
+            reportFile = Just "dist/build/twine-bench.html"
           }
 
 
