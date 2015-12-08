@@ -22,7 +22,7 @@ library
                      , SafeSemaphore                   == 0.10.*
                      , stm                             == 2.4.*
                      , text                            == 1.2.*
-                     , time                            == 1.4.*
+                     , time                            >= 1.4        && < 1.6
                      , transformers                    >= 0.3        && < 0.5
 
   ghc-options:
