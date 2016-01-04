@@ -154,7 +154,9 @@ consume pro fork action = flip catchAll (pure . Left . BlowUpError) $ do
         ii <- mapM (bimapEitherT WorkerError id . EitherT . waitEither terminator) ws
         pure $ (i, ii)
 
-  waiter `catch` (\(_ :: EarlyTermination) -> (Left . WorkerError) <$> wait terminator)
+  waiter `catch` (\(_ :: EarlyTermination) ->
+    failWorkers workers >>
+      (Left . WorkerError) <$> wait terminator)
 
 
 waitEitherBoth :: Async a -> Async b -> Async c -> IO (Either a (b, c))
