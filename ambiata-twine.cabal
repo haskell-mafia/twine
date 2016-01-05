@@ -22,7 +22,7 @@ library
                      , SafeSemaphore                   == 0.10.*
                      , stm                             == 2.4.*
                      , text                            == 1.2.*
-                     , time                            == 1.4.*
+                     , time                            >= 1.4        && < 1.6
                      , transformers                    >= 0.3        && < 0.5
 
   ghc-options:
@@ -64,7 +64,7 @@ test-suite test
                      , text                            == 1.2.*
                      , time
                      , transformers                    >= 0.3        && < 0.5
-                     , QuickCheck                      == 2.7.*
+                     , QuickCheck                      == 2.8.*
                      , quickcheck-instances            == 0.3.*
 
 test-suite test-io
@@ -86,7 +86,7 @@ test-suite test-io
                      , exceptions
                      , text
                      , time
-                     , QuickCheck                      == 2.7.*
+                     , QuickCheck                      == 2.8.*
                      , quickcheck-instances            == 0.3.*
 
 benchmark bench

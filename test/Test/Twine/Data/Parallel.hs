@@ -1,6 +1,7 @@
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TemplateHaskell #-}
 {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
 module Test.Twine.Data.Parallel where
 
@@ -24,12 +25,12 @@ prop_short_circuit = testIO $ do
   z <- getResult r
   pure $ z === (Left "fail")
 
-prop_read a = testIO $ do
+prop_read (a :: Int) = testIO $ do
   r <- newResult a
   z <- getResult r
   pure $ z === a
 
-prop_read_read a = testIO $ do
+prop_read_read (a :: Int) = testIO $ do
   r <- newResult a
   _ <- getResult r
   z <- getResult r

@@ -1,4 +1,5 @@
 {-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
 module Test.Twine.Data.Queue where
@@ -14,7 +15,7 @@ import           Test.QuickCheck.Instances ()
 
 import           Twine.Data.Queue
 
-prop_read_write a = testIO $ do
+prop_read_write (a :: Int) = testIO $ do
   q <- newQueue 1
   writeQueue q a
   r <- readQueue q
