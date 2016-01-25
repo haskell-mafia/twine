@@ -3,6 +3,7 @@ module Twine.Data.Pin (
     Pin
   , newPin
   , checkPin
+  , waitForPin
   , pullPin
   ) where
 
@@ -30,6 +31,10 @@ newPin =
 checkPin :: Pin -> IO Bool
 checkPin =
   fmap isJust . tryTakeMVar . pin
+
+waitForPin :: Pin -> IO ()
+waitForPin =
+  void . takeMVar . pin
 
 pullPin :: Pin -> IO ()
 pullPin =
