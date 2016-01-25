@@ -45,6 +45,13 @@ prop_pull = once . testIO $
 prop_pull_pull = once . testIO $
   newPin >>= \p -> pullPin p >> pullPin p >> checkPin p >>= pure . (===) True
 
+--
+-- A pin can be pulled without blocking
+--
+
+prop_wait = once . testIO $
+  newPin >>= \p -> pullPin p >> waitForPin p >> pure True
+
 return []
 tests :: IO Bool
 tests = $quickCheckAll
