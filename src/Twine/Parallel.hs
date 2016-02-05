@@ -13,10 +13,8 @@ module Twine.Parallel (
 
 
 import           Control.Concurrent.MVar (newEmptyMVar, takeMVar, putMVar)
-import           Control.Concurrent.STM (atomically, orElse, retry)
 import           Control.Concurrent (threadDelay)
-import           Control.Concurrent.Async (Async, waitSTM, waitEither)
-import           Control.Concurrent.Async (async, cancel, poll, waitBoth, wait)
+import           Control.Concurrent.Async (async, cancel, poll, waitBoth, wait, waitEither)
 import           Control.Concurrent.MSem (new, signal)
 import qualified Control.Concurrent.MSem as M
 import           Control.Monad.Catch
@@ -31,6 +29,7 @@ import           P
 
 import           Prelude (($!))
 
+import           Twine.Async (waitEitherBoth)
 import           Twine.Data.Parallel
 import           Twine.Data.Queue
 
@@ -157,15 +156,3 @@ consume pro fork action = flip catchAll (pure . Left . BlowUpError) $ do
   waiter `catch` (\(_ :: EarlyTermination) ->
     failWorkers workers >>
       (Left . WorkerError) <$> wait terminator)
-
-
-waitEitherBoth :: Async a -> Async b -> Async c -> IO (Either a (b, c))
-waitEitherBoth a b c =
-  atomically $ do
-    let
-      l = waitSTM a
-      r = do
-        bb <- waitSTM b `orElse` (waitSTM c >> retry)
-        cc <- waitSTM c
-        return (bb, cc)
-    fmap Left l `orElse` fmap Right r

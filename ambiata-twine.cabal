@@ -34,6 +34,7 @@ library
 
   exposed-modules:
                        Twine
+                       Twine.Async
                        Twine.Data
                        Twine.Data.Duration
                        Twine.Data.Finalizer
@@ -60,6 +61,7 @@ test-suite test
                      , ambiata-disorder-core
                      , ambiata-p
                      , ambiata-x-eithert
+                     , async                           == 2.0.*
                      , exceptions                      >= 0.6        && < 0.9
                      , text                            == 1.2.*
                      , time
