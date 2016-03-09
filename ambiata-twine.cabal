@@ -16,7 +16,7 @@ library
                        base                            >= 3          && < 5
                      , ambiata-p
                      , ambiata-x-eithert
-                     , async                           == 2.0.*
+                     , async                           >= 2.0        && < 2.2
                      , exceptions                      >= 0.6        && < 0.9
                      , monad-loops                     == 0.4.*
                      , SafeSemaphore                   == 0.10.*
