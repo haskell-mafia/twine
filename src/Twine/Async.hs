@@ -18,7 +18,6 @@ import           Control.Monad.Catch (catch, throwM)
 import           Control.Monad.IO.Class (liftIO)
 
 import           Data.IORef (newIORef, readIORef, writeIORef)
-import           Data.Text (Text)
 import qualified Data.Text as T
 
 import           P

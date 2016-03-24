@@ -5,8 +5,6 @@
 {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
 module Test.Twine.Data.Parallel where
 
-import           Data.Text (Text)
-
 import           Disorder.Core.IO
 
 import           P
