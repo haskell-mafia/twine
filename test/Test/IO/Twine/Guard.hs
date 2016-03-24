@@ -7,8 +7,6 @@ module Test.IO.Twine.Guard where
 import           Control.Concurrent
 import           Control.Monad.Catch
 
-import           Data.Text (Text)
-
 import           Disorder.Core.IO
 
 import           P

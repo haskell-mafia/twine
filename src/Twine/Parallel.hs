@@ -21,13 +21,10 @@ import           Control.Monad.Catch
 import           Control.Monad.IO.Class
 import           Control.Monad.Loops (untilM_)
 
-import           Data.Text (Text)
 import qualified Data.Text as T
 import           Data.Typeable
 
 import           P
-
-import           Prelude (($!))
 
 import           Twine.Async (waitEitherBoth)
 import           Twine.Data.Parallel
