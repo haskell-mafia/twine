@@ -13,7 +13,7 @@ description:           twine.
 
 library
   build-depends:
-                       base                            >= 3          && < 5
+                       base                            >= 3          && < 6
                      , ambiata-p
                      , ambiata-x-eithert
                      , async                           >= 2.0        && < 2.2
@@ -61,7 +61,7 @@ test-suite test
                      , ambiata-disorder-core
                      , ambiata-p
                      , ambiata-x-eithert
-                     , async                           == 2.0.*
+                     , async                           >= 2.0        && < 2.2
                      , exceptions                      >= 0.6        && < 0.9
                      , text                            == 1.2.*
                      , time
