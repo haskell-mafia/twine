@@ -22,8 +22,8 @@ library
                      , SafeSemaphore                   == 0.10.*
                      , stm                             == 2.4.*
                      , text                            == 1.2.*
-                     , time                            >= 1.4        && < 1.6
-                     , transformers                    >= 0.3        && < 0.5
+                     , time                            >= 1.4        && < 1.7
+                     , transformers                    >= 0.3        && < 0.6
 
   ghc-options:
                        -Wall
@@ -65,7 +65,7 @@ test-suite test
                      , exceptions                      >= 0.6        && < 0.9
                      , text                            == 1.2.*
                      , time
-                     , transformers                    >= 0.3        && < 0.5
+                     , transformers                    >= 0.3        && < 0.6
                      , QuickCheck                      == 2.8.*
                      , quickcheck-instances            == 0.3.*
 
