@@ -38,9 +38,11 @@ library
                        Twine.Data
                        Twine.Data.Duration
                        Twine.Data.Finalizer
+                       Twine.Data.Gate
                        Twine.Data.Parallel
                        Twine.Data.Pin
                        Twine.Data.Queue
+                       Twine.Loop
                        Twine.Parallel
                        Twine.Snooze
                        Twine.Guard
@@ -85,6 +87,7 @@ test-suite test-io
                      , ambiata-disorder-core
                      , ambiata-p
                      , ambiata-x-eithert
+                     , async                           >= 2.0        && < 2.2
                      , exceptions
                      , text
                      , time
