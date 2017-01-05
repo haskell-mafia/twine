@@ -39,7 +39,7 @@ prop_pull = once . testIO $
 
 
 --
--- A pin can be pulled multiple tiumes without blocking
+-- A pin can be pulled multiple times without blocking
 --
 
 prop_pull_pull = once . testIO $
