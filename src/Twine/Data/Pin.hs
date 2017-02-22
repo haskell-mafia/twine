@@ -34,7 +34,7 @@ checkPin =
 
 waitForPin :: Pin -> IO ()
 waitForPin =
-  void . takeMVar . pin
+  void . readMVar . pin
 
 pullPin :: Pin -> IO ()
 pullPin =

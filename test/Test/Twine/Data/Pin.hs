@@ -3,13 +3,13 @@
 {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
 module Test.Twine.Data.Pin where
 
-import           Disorder.Core.IO
+import           Control.Concurrent.Async (async, waitBoth)
+
+import           Disorder.Core.IO (testIO)
 
 import           P
 
-import           System.IO
-
-import           Test.QuickCheck
+import           Test.QuickCheck (quickCheckAll, once, (===))
 
 import           Twine.Data.Pin
 
@@ -52,6 +52,25 @@ prop_pull_pull = once . testIO $
 prop_wait = once . testIO $
   newPin >>= \p -> pullPin p >> waitForPin p >> pure True
 
+
+--
+-- Multiple things can be blocked on a pin
+--
+prop_multiple = once . testIO $
+  newPin >>= \p -> do
+   x <- async $ waitForPin p
+   y <- async $ waitForPin p
+   pullPin p
+   r <- waitBoth x y
+   pure $ r === ((), ())
+
+--
+-- Multiple things can be blocked on a pin
+--
+prop_multiple_inline = once . testIO $
+  newPin >>= \p ->
+   pullPin p >> waitForPin p >> waitForPin p >> pure True
+
+
 return []
-tests :: IO Bool
 tests = $quickCheckAll
