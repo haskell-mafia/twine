@@ -13,7 +13,7 @@ description:           twine.
 
 library
   build-depends:
-                       base                            >= 3          && < 6
+                       base                            >= 3          && < 5
                      , ambiata-p
                      , ambiata-x-eithert
                      , async                           >= 2.0        && < 2.2
@@ -22,7 +22,7 @@ library
                      , SafeSemaphore                   == 0.10.*
                      , stm                             == 2.4.*
                      , text                            == 1.2.*
-                     , time                            >= 1.4        && < 1.7
+                     , time                            >= 1.4        && < 1.9
                      , transformers                    >= 0.3        && < 0.6
 
   ghc-options:
